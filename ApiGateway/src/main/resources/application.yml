@@ -1,0 +1,72 @@
+server:
+  port: 8083
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: USERSERVICE
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/user/**    
+
+        - id: ADMINSERVICE  
+          uri: lb://ADMINSERVICE
+          predicates:
+            - Path=/admin/** 
+          filters:
+            - AddRequestHeader=X-Gateway-Secret, InternalGateway       
+
+        - id: FLIGHTSERVICE
+          uri: lb://FLIGHTSERVICE
+          predicates:
+            - Path=/flight/**  
+          filters:
+            - AddRequestHeader=X-Gateway-Secret, InternalGateway 
+
+        - id: BOOKINGSERVICE
+          uri: lb://BOOKINGSERVICE
+          predicates:
+            - Path=/booking/** 
+          filters:
+            - AddRequestHeader=X-Gateway-Secret, InternalGateway 
+
+        - id: PAYMENTSERVICE
+          uri: lb://PAYMENTSERVICE
+          predicates:
+            - Path=/payment/** 
+          filters:
+            - AddRequestHeader=X-Gateway-Secret, InternalGateway 
+
+        - id: CHECKINSERVICE
+          uri: lb://CHECKINSERVICE
+          predicates:
+            - Path=/checkin/** 
+          filters:
+            - AddRequestHeader=X-Gateway-Secret, InternalGateway   
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: User Service
+        url: /auth/v3/api-docs
+      - name: Admin Service
+        url: /admin/v3/api-docs
+      - name: Flight Service
+        url: /flight/v3/api-docs
+      - name: Booking Service
+        url: /booking/v3/api-docs
+      - name: Payment Service
+        url: /payment/v3/api-docs
+      - name: Check-In Service
+        url: /checkin/v3/api-docs
