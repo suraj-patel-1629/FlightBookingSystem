@@ -1,0 +1,30 @@
+
+spring:
+  # Uncomment if using config server
+  # config:
+  #   import: configserver:http://localhost:8082
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/AuthDb?createDatabaseIfNotExist=true
+    username: root
+    password: Suraj@1629
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  # Swagger Configuration (springdoc)
+  doc:
+    swagger-ui:
+      path: /swagger-ui.html
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+
